@@ -24,7 +24,7 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     ;; better-defaults
+     better-defaults
      emacs-lisp
      git
      markdown
@@ -45,7 +45,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(company-lua)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -263,6 +263,9 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  (setq-default tab-width 4)
+  (setq indent-tabs-mode nil)
+
   ;; config evil
   (define-key evil-insert-state-map (kbd "C-f") 'forward-char)
   (define-key evil-insert-state-map (kbd "C-b") 'backward-char)
@@ -285,6 +288,9 @@ you should place your code here."
   ;; config lua-indent-level
   (with-eval-after-load 'lua-mode
     (setq lua-indent-level 4))
+  ;; (require 'company)
+  (require 'company-lua)
+  (add-to-list 'company-backends 'company-lua)
 
   ;; config c-mode
   (setq c-default-style '((java-mode . "java") (awk-mode . "awk") (other . "user")))
