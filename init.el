@@ -40,6 +40,8 @@ values."
      python
      javascript
      osx
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -294,7 +296,6 @@ you should place your code here."
 
   ;; config c-mode
   (setq c-default-style '((java-mode . "java") (awk-mode . "awk") (other . "user")))
-
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
