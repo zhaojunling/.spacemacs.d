@@ -23,7 +23,8 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t)
      better-defaults
      emacs-lisp
      git
@@ -40,8 +41,10 @@ values."
      python
      javascript
      osx
-     (auto-completion :variables
-                      auto-completion-enable-snippets-in-popup t)
+     gtags
+     (chinese :variables
+              chinese-enable-youdao-dict t)
+     sswanv
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -102,12 +105,13 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light
-                         solarized-light
+   dotspacemacs-themes '(
+                         spacemacs-dark
                          solarized-dark
-                         leuven
                          monokai
+                         solarized-light
+                         spacemacs-light
+                         leuven
                          zenburn)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -268,35 +272,29 @@ you should place your code here."
   (setq-default tab-width 4)
   (setq indent-tabs-mode nil)
 
-  ;; config evil
-  (define-key evil-insert-state-map (kbd "C-f") 'forward-char)
-  (define-key evil-insert-state-map (kbd "C-b") 'backward-char)
-  (define-key evil-insert-state-map (kbd "C-n") 'next-line)
-  (define-key evil-insert-state-map (kbd "C-p") 'previous-line)
-  (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line)
-  (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
-  (define-key evil-insert-state-map (kbd "C-k") 'kill-line)
-  (define-key evil-insert-state-map (kbd "C-d") 'delete-char)
-
-
-  ;; config company key
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous)
-    )
-
-  ;; config lua-indent-level
-  (with-eval-after-load 'lua-mode
-    (setq lua-indent-level 4))
-  ;; (require 'company)
-  (require 'company-lua)
-  (add-to-list 'company-backends 'company-lua)
-
   ;; config c-mode
   (setq c-default-style '((java-mode . "java") (awk-mode . "awk") (other . "user")))
-  )
+
+  ;; config org
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
+  (setq org-tag-alist '((:startgroup . nil)
+                        ("@work" . ?w) ("@home" . ?h)
+                        ("@tennisclub" . ?t)
+                        (:endgroup . nil)
+                        ("laptop" . ?l) ("pc" . ?p)))
+
+  ;; (setq org-todo-keyword-faces
+  ;;       '(("TODO" . org-warning) ("STARTED" . "yellow")
+  ;;         ("CANCELED" . (:foreground "blue" :weight bold))))
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
