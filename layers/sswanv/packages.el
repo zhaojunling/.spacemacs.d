@@ -29,10 +29,6 @@
               ("j" "journal"
                entry (file+datetree "~/org-notes/journal.org")
                "* %?"
-               :empty-lines 1)
-              ("e" "Journal Entry"
-               entry (file+datetree "~/journal.org")
-               "* Event: %?\n\n  %i\n\n  From: %a"
                :empty-lines 1)))
       )))
 
