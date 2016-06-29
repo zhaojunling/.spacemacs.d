@@ -279,17 +279,14 @@ you should place your code here."
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 
-  (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to DONE when all subentries are done, to TODO otherwise."
-    (let (org-log-done org-log-states)   ; turn off logging
-      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+  ;; TODO: 为了解决 C-p 被hipple-expand 占用的问题
+  (define-key evil-insert-state-map (kbd "C-p") 'previous-line)
 
-  (setq org-tag-alist '((:startgroup . nil)
-                        ("@work" . ?w) ("@home" . ?h)
-                        ("@tennisclub" . ?t)
-                        (:endgroup . nil)
-                        ("laptop" . ?l) ("pc" . ?p)))
+  ;; (setq org-tag-alist '((:startgroup . nil)
+  ;;                       ("@work" . ?w) ("@home" . ?h)
+  ;;                       ("@tennisclub" . ?t)
+  ;;                       (:endgroup . nil)
+  ;;                       ("laptop" . ?l) ("pc" . ?p)))
 
   ;; (setq org-todo-keyword-faces
   ;;       '(("TODO" . org-warning) ("STARTED" . "yellow")
